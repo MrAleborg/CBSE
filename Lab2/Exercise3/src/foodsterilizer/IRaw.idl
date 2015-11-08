@@ -1,0 +1,8 @@
+package foodsterilizer;
+
+interface IRaw{
+
+	int checkRawProductReady();
+	int checkRawProductFinished();
+
+}

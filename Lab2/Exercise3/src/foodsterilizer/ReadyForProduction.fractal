@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- START SNIPPET: Content -->
+<!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN"
+  "classpath://org/objectweb/fractal/cecilia/adl/parser/xml/cecilia.dtd">
+
+
+<!-- ================================================================ -->
+<!--                        Ready For Production                      -->
+<!-- ================================================================ -->
+
+<definition name="foodsterilizer.ReadyForProduction">
+
+	<!-- Entry point -->
+	<interface name="rfp" role="server" signature="foodsterilizer.IRfP" />
+	<interface name="d_a" role="server" signature="foodsterilizer.IAlarm" />
+
+	<!-- Required interfaces -->
+	<interface name="a" role="client" signature="foodsterilizer.IAbort" />
+        <interface name="r" role="client" signature="foodsterilizer.IRaw" />
+
+	<!-- ======================================================= -->
+	<!--                        Subcomponents                    -->
+	<!-- ======================================================= -->
+	
+	<component name="monitor">
+
+		<!-- Interfaces of the monitor component -->
+		<interface name="m" role="server" signature="foodsterilizer.IRfP" />
+		<interface name="a" role="client" signature="foodsterilizer.IAbort" />
+		<interface name="r" role="client" signature="foodsterilizer.IRaw" />
+		<interface name="sens" role="client" signature="foodsterilizer.ISensor" />
+		<interface name="d_a" role="client" signature="foodsterilizer.IAlarm" />
+		<!--<interface name="tim" role="client" signature="foodsterilizer.ITimer" />-->
+
+		<!-- Implementation of the component -->
+		<content class="foodsterilizer.RfP" hasConstructor="true" />
+
+	</component>
+
+	<!-- external definitions of components -->
+	<component name="sensor" definition="foodsterilizer.Sensor" />
+	<component name="delayalarm" definition="foodsterilizer.DelayAlarm" />
+	<!--<component name="timer" definition="foodsterilizer.Timer" />-->
+
+	<!-- ======================================================= -->
+	<!--                         Bindings                        -->
+	<!-- ======================================================= -->
+
+	<!-- bind entry point with monitor -->
+	<binding client="this.rfp" server="monitor.m" />
+
+	<!-- bind monitor with sensor -->
+	<binding client="monitor.sens" server="sensor.sens" />
+
+	<!-- bind monitor with timer
+	<binding client="monitor.tim" server="timer.tim" />-->
+
+	<!-- bind abort signal -->
+	<binding client="monitor.a" server="this.a" />
+
+	<!-- bind raw product ready signal -->
+	<binding client="monitor.r" server="this.r" />
+	
+	<!-- bind delay alarm with sensor -->
+	<binding client="delayalarm.sens" server="sensor.sens" />
+	
+	<!-- bind RfP to delay alarm -->
+	<binding client="monitor.d_a" server="delayalarm.d_a" />
+
+	<!-- bind this to delay alarm to allow reinitialisation -->
+	<binding client="this.d_a" server="delayalarm.d_a" />
+
+</definition>

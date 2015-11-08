@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- START SNIPPET: Content -->
+<!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN"
+  "classpath://org/objectweb/fractal/cecilia/adl/parser/xml/cecilia.dtd">
+
+
+<!-- ================================================================ -->
+<!--                             Delay alarm                          -->
+<!-- ================================================================ -->
+
+<definition name="foodsterilizer.DelayAlarm">
+
+        <!-- provided interface -->
+        <interface name="d_a" role="server" signature="foodsterilizer.IAlarm" />
+	
+	<!-- Required interfaces -->
+	<interface name="sens" role="client" signature="foodsterilizer.ISensor" />
+
+        <!-- Implementation of the component -->
+        <content class="foodsterilizer.DelayAlarm" hasConstructor="true"/>
+
+</definition>

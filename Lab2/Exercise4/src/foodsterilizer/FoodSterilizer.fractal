@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- START SNIPPET: Content -->
+<!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN"
+  "classpath://org/objectweb/fractal/cecilia/adl/parser/xml/cecilia.dtd">
+
+
+<!-- ================================================================ -->
+<!--                          Food Sterilizer                         -->
+<!-- ================================================================ -->
+
+<definition name="foodsterilizer.FoodSterilizer">
+	
+	<!-- Entry point of the system -->
+	<interface name="main" role="server" signature="boot.api.Main" />
+
+
+	<!-- ======================================================= -->
+	<!--                       Subcomponents                     -->
+	<!-- ======================================================= -->
+	
+	<component name="clean">
+
+		<!-- Interface of the clean component -->
+		<interface name="c" role="server" signature="foodsterilizer.IClean" />
+
+		<!-- Implementation of the component -->
+		<content class="foodsterilizer.Clean" hasConstructor="true"/>
+
+	</component>
+
+	<component name="abort">
+
+		<!-- Interface of the component -->
+		<interface name="a" role="server" signature="foodsterilizer.IAbort" />
+
+		<!-- Implementation of the component -->
+		<content class="foodsterilizer.Abort" hasConstructor="true"/>
+
+	</component>
+
+	<!--<component name="raw">
+
+		 Interface of the component
+		<interface name="r" role="server" signature="foodsterilizer.IRaw" />
+
+		 Implementation of the component 
+		<content class="foodsterilizer.Raw" hasConstructor="true"/>
+
+	</component>-->
+
+	<component name="standard" definition="foodsterilizer.Standard"></component>
+	<component name="presterilizer" definition="foodsterilizer.PreSterilizer"></component>
+	<component name="readyfp" definition="foodsterilizer.ReadyForProduction"></component>
+
+	<!-- ======================================================= -->
+	<!--                         Bindings                        -->
+	<!-- ======================================================= -->
+
+	<!-- bind entry point of the system with the pre sterilizer -->
+	<binding client="this.main" server="presterilizer.pre" />
+
+	<!-- bind presterilizer with clean -->
+	<binding client="presterilizer.c" server="clean.c" />
+
+	<!-- bind ready for production with abort -->
+	<binding client="readyfp.a" server="abort.a" />
+
+	<!-- bind pre sterilizer with ready for production -->
+	<binding client="presterilizer.rfp" server="readyfp.rfp" />
+
+	<!-- bind ready for production with raw -->
+	<binding client="readyfp.r" server="standard.r" />
+	
+	<!-- bind delay alarm interface to allow PreSterilizer component to call reinitialization -->
+	<binding client="presterilizer.d_a" server="readyfp.d_a" />
+</definition>

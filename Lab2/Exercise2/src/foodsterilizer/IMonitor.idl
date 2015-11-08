@@ -1,0 +1,7 @@
+package foodsterilizer;
+
+interface IMonitor{
+
+	void reInit();
+
+}

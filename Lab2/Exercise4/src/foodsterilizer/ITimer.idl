@@ -1,0 +1,9 @@
+package foodsterilizer;
+
+interface ITimer {
+
+	void startTimer();
+	int getTimer();
+	void setTimer(const int t);
+
+}

@@ -1,0 +1,5 @@
+package helloworld;
+
+interface Service {
+  void print(const string msg);
+}

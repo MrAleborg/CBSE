@@ -1,0 +1,9 @@
+package foodsterilizer;
+
+interface ISensor{
+
+	int IncTemp(const int maxtemp);
+	int DecTemp(const int mintemp);
+	int getTemp();
+	void setInitTemp(const int t);
+}

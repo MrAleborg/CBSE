@@ -1,0 +1,6 @@
+package foodsterilizer;
+
+interface IAlarm{
+	int raiseAlarm();
+	void reInit();
+}

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- START SNIPPET: Content -->
+<!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN"
+  "classpath://org/objectweb/fractal/cecilia/adl/parser/xml/cecilia.dtd">
+
+
+<!-- ===========================================================
+
+Kettle system
+
+============================================================ -->
+
+<definition name="kettle.Kettle">
+
+	<!-- Entry point of the system -->
+	<interface name="main" role="server" signature="boot.api.Main" />
+	
+
+	<!--===================================================-->
+	<!--                    Subcomponents                  -->
+	<!--===================================================-->
+	<component name="client">
+
+		<!-- Interfaces of the client component -->
+    		<interface name="r" role="server" signature="boot.api.Main" />
+    		<interface name="s" role="client" signature="kettle.ISensor" />
+		<interface name="stat" role="client" signature="kettle.IStatus" />
+	
+	    	<!-- Implementation of the client component -->
+	    	<content class="kettle.Client" hasConstructor="true"/>
+  	</component>
+
+	<component name="sensor">
+	
+		<!-- Interface of the sensor component -->
+		<interface name="s" role="server" signature="kettle.ISensor" />
+		
+		<!-- Implementation of the sensor component -->
+		<content class="kettle.Sensor" hasConstructor="true"/>
+
+	</component>
+
+	<component name="status">
+		
+		<!-- Interface of th status component -->
+		<interface name="stat" role="server" signature="kettle.IStatus" />
+
+		<!-- Implementation of the status component -->
+		<content class="kettle.Status" hasConstructor="true"/>
+
+	</component>
+
+        <!--===================================================--> 
+        <!--                      Bindings                     -->
+        <!--===================================================-->
+	
+	<!-- bind entry point of the system with the client -->
+	<binding client="this.main" server="client.r" />
+
+	<!-- bind client with sensor -->
+	<binding client="client.s" server="sensor.s" />
+
+	<!-- bind client with status -->
+	<binding client="client.stat" server="status.stat" />
+	
+	
+</definition>

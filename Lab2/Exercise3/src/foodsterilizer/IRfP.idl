@@ -1,0 +1,7 @@
+package foodsterilizer;
+
+interface IRfP{
+
+	void run(const int presterilized);
+
+}

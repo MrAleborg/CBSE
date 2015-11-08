@@ -1,0 +1,65 @@
+/**
+ * Cecilia, an implementation of the Fractal component model in C.
+ *
+ * Copyright (C) 2007 ST Microelectronics
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+ *
+ * Contact: fractal@objectweb.org
+ *
+ * Authors: Matthieu Leclercq
+ */
+// START SNIPPET: Content
+#include <stdio.h>
+
+/** Declare component internal data */
+DECLARE_DATA {
+  int nrOfInvocations;
+};
+
+/** Include cecilia.h. Must be included after the DECLARE_DATA */
+#include <cecilia.h>
+
+// -----------------------------------------------------------------------------
+// Implementation of the constructor.
+// -----------------------------------------------------------------------------
+
+void CONSTRUCTOR(void *_this) {
+  DATA.nrOfInvocations = 0;
+}
+
+// -----------------------------------------------------------------------------
+// Implementation of the service interface.
+// -----------------------------------------------------------------------------
+
+// void print(string msg)
+void METHOD(s, print)(void *_this, const char *msg)
+{
+  int i;
+  char* header = ATTRIBUTES.header;
+  if (header == NULL) {
+    header = (char *)"";
+  }
+
+  printf("Server: begin printing...\n");
+  for (i = 0; i < ATTRIBUTES.count; ++i) {
+    printf("%s%s\n", header, msg);
+  }
+
+  // increment the number of invocations received by this component instance
+  DATA.nrOfInvocations++;
+
+  printf("Server: print done (Number of invocations up to now: #%d)\n", DATA.nrOfInvocations);
+}

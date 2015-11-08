@@ -1,0 +1,6 @@
+package helloworld;
+
+record ServiceAttributes {
+  int count;
+  string header;
+}

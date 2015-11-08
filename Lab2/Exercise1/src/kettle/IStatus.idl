@@ -1,0 +1,8 @@
+package kettle;
+
+interface IStatus{
+
+	int generateStatus();
+	int setStatusOff();
+
+}
